@@ -39,6 +39,9 @@ class QuizApp extends StatefulWidget {
 }
 
 class _QuizAppState extends State<QuizApp> {
+  int _currentQuestionIndex = 0;
+  int _score = 0;
+  List<Map<String, Object>> _questions = [];
   @override
   void initState() {
     super.initState();
@@ -117,6 +120,36 @@ class _QuizAppState extends State<QuizApp> {
   }
 
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return _currentQuestionIndex < _questions.length
+        ? Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text(
+                  _questions[_currentQuestionIndex]['question'] as String,
+                  style: const TextStyle(fontSize: 20),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 20),
+                ...(_questions[_currentQuestionIndex]['options']
+                        as List<String>)
+                    .map((option) {
+                  return ElevatedButton(
+                    onPressed: () {},
+                    child: Text(option),
+                  );
+                }).toList(),
+              ],
+            ),
+          )
+        : Center(
+            child: Text(
+              'Quiz Completed! Your score: $_score',
+              style: const TextStyle(fontSize: 24),
+              textAlign: TextAlign.center,
+            ),
+          );
   }
 }
