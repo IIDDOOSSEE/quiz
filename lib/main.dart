@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 void main() {
   runApp(const Home());
@@ -41,6 +42,18 @@ class _QuizAppState extends State<QuizApp> {
   @override
   void initState() {
     super.initState();
+    _loadQuestions();
+  }
+
+  Future<void> _loadQuestions() async {
+    try {
+      final data = await rootBundle.loadString('assets/question.txt');
+      setState(() {
+        _questions = _parseQuestions(data);
+      });
+    } catch (e) {
+      print("Error loading questions: $e");
+    }
   }
 
   List<Map<String, Object>> _parseQuestions(String data) {
