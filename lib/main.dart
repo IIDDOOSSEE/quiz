@@ -119,6 +119,16 @@ class _QuizAppState extends State<QuizApp> {
     return questions;
   }
 
+  void _answerQuestion(String selectedOption) {
+    if (selectedOption == _questions[_currentQuestionIndex]['answer']) {
+      _score++;
+    }
+    setState(() {
+      _currentQuestionIndex++;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return _currentQuestionIndex < _questions.length
         ? Padding(
@@ -137,7 +147,7 @@ class _QuizAppState extends State<QuizApp> {
                         as List<String>)
                     .map((option) {
                   return ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => _answerQuestion(option),
                     child: Text(option),
                   );
                 }).toList(),
