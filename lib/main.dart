@@ -134,23 +134,38 @@ class _QuizAppState extends State<QuizApp> {
         ? Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text(
-                  _questions[_currentQuestionIndex]['question'] as String,
-                  style: const TextStyle(fontSize: 20),
-                  textAlign: TextAlign.left,
+                // ใช้ Expanded เพื่อให้พื้นที่สำหรับโจทย์สามารถขยายได้
+                Flexible(
+                  child: SingleChildScrollView(
+                    child: Text(
+                      _questions[_currentQuestionIndex]['question'] as String,
+                      style: const TextStyle(fontSize: 20),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 20),
-                ...(_questions[_currentQuestionIndex]['options']
-                        as List<String>)
-                    .map((option) {
-                  return ElevatedButton(
-                    onPressed: () => _answerQuestion(option),
-                    child: Text(option),
-                  );
-                }).toList(),
+                // ใช้ Flexible เพื่อให้ตัวเลือกอยู่คงที่ด้านล่าง
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: (_questions[_currentQuestionIndex]['options']
+                            as List<String>)
+                        .map((option) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical:
+                                8.0), // เพิ่ม margin เพื่อสร้างความห่างระหว่างปุ่ม
+                        child: ElevatedButton(
+                          onPressed: () => _answerQuestion(option),
+                          child: Text(option),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
               ],
             ),
           )
