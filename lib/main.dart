@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const Home());
@@ -20,7 +21,8 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: const Text(
             "Quiz App",
-            style: TextStyle(fontSize: 40, letterSpacing: 5),
+            style: TextStyle(
+                fontSize: 40, letterSpacing: 5, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.blue,
           centerTitle: true,
@@ -136,18 +138,16 @@ class _QuizAppState extends State<QuizApp> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                // ใช้ Expanded เพื่อให้พื้นที่สำหรับโจทย์สามารถขยายได้
                 Flexible(
                   child: SingleChildScrollView(
                     child: Text(
                       _questions[_currentQuestionIndex]['question'] as String,
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 25),
                       textAlign: TextAlign.left,
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
-                // ใช้ Flexible เพื่อให้ตัวเลือกอยู่คงที่ด้านล่าง
                 Flexible(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -155,11 +155,13 @@ class _QuizAppState extends State<QuizApp> {
                             as List<String>)
                         .map((option) {
                       return Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical:
-                                8.0), // เพิ่ม margin เพื่อสร้างความห่างระหว่างปุ่ม
+                        color: Color.fromARGB(255, 229, 238, 243),
+                        margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ElevatedButton(
                           onPressed: () => _answerQuestion(option),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Color.fromARGB(255, 221, 252, 252)),
                           child: Text(option),
                         ),
                       );
