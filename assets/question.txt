@@ -1,0 +1,45 @@
+1. 	p → q 
+	p 
+	∴ q
+From the argument above, which theory makes sense?
+a. Modus Ponens 
+b. Elimination
+c. Modus Tollens
+d. Generalization
+
+2. 	p → q
+	∼p
+	∴ ∼q
+From the argument above, is it reasonable or not? how ?
+a. Valid by Modus Ponens
+b. Valid by  Modus Tollens
+c. Invalid because Inverse error 
+d. Invalid because Converse error
+
+3. 	(p ∧ ∼q) ∨ p ≡ p
+Which of the following is correct?
+a. (p ∧ ∼q) ∨ p ≡ p isn't logically equivalent
+b. (p ∧ ∼q) ∨ p ≡ p is logically equivalent by Absorption laws 
+c. (p ∧ ∼q) ∨ p ≡ p is logically equivalent by Distributive laws
+d. There isn't correct answer.
+
+4.	p → q ≡ q  → p 
+	p → q ≡ ~p  → q 
+	p → q ≡ ~q  → ~p 
+From the statements above, how many statements are true?
+a. 0
+b. 1
+c. 2
+d. 3
+
+5. Let P(x) be a predicate of x > 2. Which of the following makes P(x) true?
+a. 0
+b. 1
+c. 2
+d. 3
+
+6. p → q is logically equivalent to which of the following?
+a. p
+b. q
+c. ~q  → ~p 
+d. ~p  → ~q
