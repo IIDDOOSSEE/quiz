@@ -130,6 +130,13 @@ class _QuizAppState extends State<QuizApp> {
     });
   }
 
+  void _restartQuiz() {
+    setState(() {
+      _currentQuestionIndex = 0;
+      _score = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return _currentQuestionIndex < _questions.length
@@ -172,10 +179,28 @@ class _QuizAppState extends State<QuizApp> {
             ),
           )
         : Center(
-            child: Text(
-              'Quiz Completed! Your score: $_score',
-              style: const TextStyle(fontSize: 24),
-              textAlign: TextAlign.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Quiz Completed your score is :$_score",
+                  style: const TextStyle(
+                      fontSize: 35, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                    onPressed: () => _restartQuiz(),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 133, 226, 244)),
+                    child: const Text(
+                      "Restart",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ))
+              ],
             ),
           );
   }
