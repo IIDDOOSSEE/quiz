@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const Home());
@@ -41,19 +40,23 @@ class QuizApp extends StatefulWidget {
 }
 
 class _QuizAppState extends State<QuizApp> {
+  // กำหนดตัวแปร ลำดับคำถามและ คะแนน
   int _currentQuestionIndex = 0;
   int _score = 0;
   List<Map<String, Object>> _questions = [];
   @override
+  // สร้างฟังก์ชันเริ่มต้น
   void initState() {
     super.initState();
     _loadQuestions();
   }
 
+// ดึงข้อมูลจากไฟล์ question.txt และทำการแสดงผล UI ใหม่ผ่าน setState
   Future<void> _loadQuestions() async {
     try {
       final data = await rootBundle.loadString('assets/question.txt');
       setState(() {
+        //เก็บค่าคำถาม ตัวเลือก และ คำตอบที่ถูกต้องไว้ในตัวแปร _questions
         _questions = _parseQuestions(data);
       });
     } catch (e) {
@@ -61,6 +64,7 @@ class _QuizAppState extends State<QuizApp> {
     }
   }
 
+// สร้างฟังก์ชันการแยกประเภทคำถาม ตัวเลือก และคำตอบ โดยจะเข้าถึงข้อมูลผ่าน key
   List<Map<String, Object>> _parseQuestions(String data) {
     final questions = <Map<String, Object>>[];
     final lines = data.split('\n').map((line) => line.trim()).toList();
@@ -121,6 +125,7 @@ class _QuizAppState extends State<QuizApp> {
     return questions;
   }
 
+//ฟังก์ชันการนับคะแนนและเริ่มข้อต่อไป
   void _answerQuestion(String selectedOption) {
     if (selectedOption == _questions[_currentQuestionIndex]['answer']) {
       _score++;
@@ -130,6 +135,7 @@ class _QuizAppState extends State<QuizApp> {
     });
   }
 
+//ฟังก์ชันการเริ่มต้นทำ Quiz ใหม่
   void _restartQuiz() {
     setState(() {
       _currentQuestionIndex = 0;
@@ -138,6 +144,7 @@ class _QuizAppState extends State<QuizApp> {
   }
 
   @override
+  // แสดงผลและตกแต่ง UI
   Widget build(BuildContext context) {
     return _currentQuestionIndex < _questions.length
         ? Padding(
@@ -145,6 +152,7 @@ class _QuizAppState extends State<QuizApp> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                // ปรับขนาด widget ไม่ให้ใช้พื้นที่มากเกินไปด้วย Flexible
                 Flexible(
                   child: SingleChildScrollView(
                     child: Text(
@@ -160,15 +168,16 @@ class _QuizAppState extends State<QuizApp> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: (_questions[_currentQuestionIndex]['options']
                             as List<String>)
+                        //ใช้ map วน option ทุกตัว เพื่อนำมาแสดงผลในปุ่ม
                         .map((option) {
                       return Container(
-                        color: Color.fromARGB(255, 229, 238, 243),
+                        color: const Color.fromARGB(255, 229, 238, 243),
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ElevatedButton(
                           onPressed: () => _answerQuestion(option),
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
-                                  Color.fromARGB(255, 221, 252, 252)),
+                                  const Color.fromARGB(255, 221, 252, 252)),
                           child: Text(option),
                         ),
                       );
@@ -191,10 +200,12 @@ class _QuizAppState extends State<QuizApp> {
                 const SizedBox(
                   height: 20,
                 ),
+                // เพิ่มปุ่ม Restart
                 ElevatedButton(
                     onPressed: () => _restartQuiz(),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 133, 226, 244)),
+                        backgroundColor:
+                            const Color.fromARGB(255, 133, 226, 244)),
                     child: const Text(
                       "Restart",
                       style:
