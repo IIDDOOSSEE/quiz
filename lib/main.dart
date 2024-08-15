@@ -152,39 +152,36 @@ class _QuizAppState extends State<QuizApp> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // ใช้ Expanded เพื่อให้พื้นที่สำหรับโจทย์สามารถขยายได้
             const SizedBox(height: 60),
-            Flexible(
+            Container(
+              height: 200,
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 67, 81, 110),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
               child: SingleChildScrollView(
-                child: Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(
-                        255, 67, 81, 110), // Set background color
-                    borderRadius:
-                        BorderRadius.circular(8.0), // Set rounded corners
+                child: Text(
+                  _questions[_currentQuestionIndex]['question'] as String,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    color: Colors.white,
                   ),
-                  child: Text(
-                    _questions[_currentQuestionIndex]['question'] as String,
-                    style: const TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
+                  textAlign: TextAlign.left,
                 ),
               ),
             ),
             const SizedBox(height: 60),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: (_questions[_currentQuestionIndex]['options']
-                        as List<String>)
-                    .map((option) {
-                  return Container(
-                    color: Color.fromARGB(255, 39, 61, 108),
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children:
+                  (_questions[_currentQuestionIndex]['options'] as List<String>)
+                      .map((option) {
+                return Container(
+                  height: 80, // Set a fixed height for each option button
+                  margin: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: SizedBox(
+                    width: double.infinity, // Set a fixed width for the button
                     child: ElevatedButton(
                       onPressed: () => _answerQuestion(option),
                       style: ElevatedButton.styleFrom(
@@ -195,9 +192,9 @@ class _QuizAppState extends State<QuizApp> {
                             color: Color.fromARGB(255, 0, 0, 0),
                           )),
                     ),
-                  );
-                }).toList(),
-              ),
+                  ),
+                );
+              }).toList(),
             ),
           ],
         ),
