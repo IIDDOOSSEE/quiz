@@ -6,7 +6,7 @@ a. Modus Ponens
 b. Elimination
 c. Modus Tollens
 d. Generalization
-answer: Modus Ponens
+ans: a
 
 2. 	p → q
 	∼p
@@ -16,7 +16,7 @@ a. Valid by Modus Ponens
 b. Valid by  Modus Tollens
 c. Invalid because Inverse error 
 d. Invalid because Converse error
-answer: Invalid because Inverse error
+ans: c
 
 3. 	(p ∧ ∼q) ∨ p ≡ p
 Which of the following is correct?
@@ -24,7 +24,7 @@ a. (p ∧ ∼q) ∨ p ≡ p isn't logically equivalent
 b. (p ∧ ∼q) ∨ p ≡ p is logically equivalent by Absorption laws 
 c. (p ∧ ∼q) ∨ p ≡ p is logically equivalent by Distributive laws
 d. There isn't correct answer.
-answer: (p ∧ ∼q) ∨ p ≡ p is logically equivalent by Absorption laws
+ans: b
 
 4.	p → q ≡ q  → p 
 	p → q ≡ ~p  → q 
@@ -34,18 +34,18 @@ a. 0
 b. 1
 c. 2
 d. 3
-answer: 1
+ans: b
 
 5. Let P(x) be a predicate of x > 2. Which of the following makes P(x) true?
 a. 0
 b. 1
 c. 2
 d. 3
-answer: 3
+ans: d
 
 6. p → q is logically equivalent to which of the following?
 a. p
 b. q
 c. ~q  → ~p 
 d. ~p  → ~q
-answer: ~q  → ~p
+ans: b

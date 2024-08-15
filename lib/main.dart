@@ -97,12 +97,17 @@ class _QuizAppState extends State<QuizApp> {
         options.add(lines[i].substring(3).trim());
         i++;
       }
+      var keyAnswer = {'a': 0, 'b': 1, 'c': 2, 'd': 3};
+      String checkAnswer = '';
       String correctAnswer = '';
-      if (i < lines.length && lines[i].startsWith('answer:')) {
-        correctAnswer = lines[i].substring(8).trim();
+      if (i < lines.length && lines[i].startsWith('ans')) {
+        checkAnswer = lines[i].substring(5).trim();
+        for (int j = 0; j < 4; j++) {
+          if (keyAnswer[checkAnswer] == j) {
+            correctAnswer = options[j];
+          }
+        }
         i++;
-      } else {
-        correctAnswer = '';
       }
 
       questions.add({
