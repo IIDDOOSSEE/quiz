@@ -70,31 +70,23 @@ class _QuizAppState extends State<QuizApp> {
     final lines = data.split('\n').map((line) => line.trim()).toList();
     int i = 0;
 
-    final correctAnswers = [
-      'a',
-      'c',
-      'b',
-      'b',
-      'd',
-      'c',
-    ];
-
     while (i < lines.length) {
       if (lines[i].isEmpty) {
         i++;
         continue;
       }
 
-      StringBuffer questionBuffer = StringBuffer();
+      String questionText = '';
       while (i < lines.length &&
           !lines[i].startsWith('a.') &&
           !lines[i].startsWith('b.') &&
           !lines[i].startsWith('c.') &&
-          !lines[i].startsWith('d.')) {
-        questionBuffer.writeln(lines[i]);
+          !lines[i].startsWith('d.') &&
+          !lines[i].startsWith('answer:')) {
+        questionText += lines[i] + '\n';
         i++;
       }
-      final questionText = questionBuffer.toString().trim();
+      questionText = questionText.trim();
 
       final options = <String>[];
       while (i < lines.length &&
@@ -105,11 +97,13 @@ class _QuizAppState extends State<QuizApp> {
         options.add(lines[i].substring(3).trim());
         i++;
       }
-
-      final correctAnswerIndex =
-          ['a', 'b', 'c', 'd'].indexOf(correctAnswers[questions.length]);
-      final correctAnswer =
-          options.isNotEmpty ? options[correctAnswerIndex] : '';
+      String correctAnswer = '';
+      if (i < lines.length && lines[i].startsWith('answer:')) {
+        correctAnswer = lines[i].substring(8).trim();
+        i++;
+      } else {
+        correctAnswer = '';
+      }
 
       questions.add({
         'question': questionText,
@@ -146,73 +140,70 @@ class _QuizAppState extends State<QuizApp> {
   @override
   // แสดงผลและตกแต่ง UI
   Widget build(BuildContext context) {
-    return _currentQuestionIndex < _questions.length
-        ? Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                // ปรับขนาด widget ไม่ให้ใช้พื้นที่มากเกินไปด้วย Flexible
-                Flexible(
-                  child: SingleChildScrollView(
-                    child: Text(
-                      _questions[_currentQuestionIndex]['question'] as String,
-                      style: const TextStyle(fontSize: 25),
-                      textAlign: TextAlign.left,
+    if (_currentQuestionIndex < _questions.length) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            // ใช้ Expanded เพื่อให้พื้นที่สำหรับโจทย์สามารถขยายได้
+            Flexible(
+              child: SingleChildScrollView(
+                child: Text(
+                  _questions[_currentQuestionIndex]['question'] as String,
+                  style: const TextStyle(fontSize: 25),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: (_questions[_currentQuestionIndex]['options']
+                        as List<String>)
+                    .map((option) {
+                  return Container(
+                    color: const Color.fromARGB(255, 229, 238, 243),
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ElevatedButton(
+                      onPressed: () => _answerQuestion(option),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 221, 252, 252)),
+                      child: Text(option),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: (_questions[_currentQuestionIndex]['options']
-                            as List<String>)
-                        //ใช้ map วน option ทุกตัว เพื่อนำมาแสดงผลในปุ่ม
-                        .map((option) {
-                      return Container(
-                        color: const Color.fromARGB(255, 229, 238, 243),
-                        margin: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: ElevatedButton(
-                          onPressed: () => _answerQuestion(option),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 221, 252, 252)),
-                          child: Text(option),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ],
+                  );
+                }).toList(),
+              ),
             ),
-          )
-        : Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Quiz Completed your score is :$_score",
-                  style: const TextStyle(
-                      fontSize: 35, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                // เพิ่มปุ่ม Restart
-                ElevatedButton(
-                    onPressed: () => _restartQuiz(),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 133, 226, 244)),
-                    child: const Text(
-                      "Restart",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ))
-              ],
+          ],
+        ),
+      );
+    } else {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Quiz Completed your score is :$_score",
+              style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
-          );
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () => _restartQuiz(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 133, 226, 244)),
+                child: const Text(
+                  "Restart",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ))
+          ],
+        ),
+      );
+    }
   }
 }
