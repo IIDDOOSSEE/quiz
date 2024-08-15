@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
           centerTitle: true,
         ),
         body: const QuizApp(),
+        backgroundColor: Color.fromARGB(255, 39, 61, 108),
       ),
     );
   }
@@ -152,16 +153,29 @@ class _QuizAppState extends State<QuizApp> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // ใช้ Expanded เพื่อให้พื้นที่สำหรับโจทย์สามารถขยายได้
+            const SizedBox(height: 60),
             Flexible(
               child: SingleChildScrollView(
-                child: Text(
-                  _questions[_currentQuestionIndex]['question'] as String,
-                  style: const TextStyle(fontSize: 25),
-                  textAlign: TextAlign.left,
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(
+                        255, 67, 81, 110), // Set background color
+                    borderRadius:
+                        BorderRadius.circular(8.0), // Set rounded corners
+                  ),
+                  child: Text(
+                    _questions[_currentQuestionIndex]['question'] as String,
+                    style: const TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 60),
             Flexible(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -169,14 +183,17 @@ class _QuizAppState extends State<QuizApp> {
                         as List<String>)
                     .map((option) {
                   return Container(
-                    color: const Color.fromARGB(255, 229, 238, 243),
+                    color: Color.fromARGB(255, 39, 61, 108),
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     child: ElevatedButton(
                       onPressed: () => _answerQuestion(option),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 221, 252, 252)),
-                      child: Text(option),
+                          backgroundColor: Color.fromARGB(255, 240, 180, 0)),
+                      child: Text(option,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          )),
                     ),
                   );
                 }).toList(),
