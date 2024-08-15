@@ -1,38 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-void main() {
-  runApp(const Home());
-}
-
-class Home extends StatefulWidget {
-  const Home({super.key});
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Quiz App",
-            style: TextStyle(
-                fontSize: 40, letterSpacing: 5, fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: Colors.blue,
-          centerTitle: true,
-        ),
-        body: const QuizApp(),
-        backgroundColor: Color.fromARGB(255, 39, 61, 108),
-      ),
-    );
-  }
-}
-
 class QuizApp extends StatefulWidget {
   const QuizApp({super.key});
 
@@ -98,11 +66,11 @@ class _QuizAppState extends State<QuizApp> {
         options.add(lines[i].substring(3).trim());
         i++;
       }
-      var keyAnswer = {'a': 0, 'b': 1, 'c': 2, 'd': 3};
+      var keyAnswer = {'a.': 0, 'b.': 1, 'c.': 2, 'd.': 3};
       String checkAnswer = '';
       String correctAnswer = '';
       if (i < lines.length && lines[i].startsWith('ans')) {
-        checkAnswer = lines[i].substring(5).trim();
+        checkAnswer = lines[i].substring(4).trim();
         for (int j = 0; j < 4; j++) {
           if (keyAnswer[checkAnswer] == j) {
             correctAnswer = options[j];
@@ -152,9 +120,10 @@ class _QuizAppState extends State<QuizApp> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            // ใช้ Expanded เพื่อให้พื้นที่สำหรับโจทย์สามารถขยายได้
             const SizedBox(height: 60),
             Container(
-              height: 200,
+              height: 220,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 67, 81, 110),
@@ -164,24 +133,23 @@ class _QuizAppState extends State<QuizApp> {
                 child: Text(
                   _questions[_currentQuestionIndex]['question'] as String,
                   style: const TextStyle(
-                    fontSize: 22,
+                    fontSize: 24,
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.left,
                 ),
               ),
             ),
-            const SizedBox(height: 60),
+            const SizedBox(height: 50),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children:
                   (_questions[_currentQuestionIndex]['options'] as List<String>)
                       .map((option) {
                 return Container(
-                  height: 80, // Set a fixed height for each option button
+                  height: 70,
                   margin: const EdgeInsets.symmetric(vertical: 8.0),
                   child: SizedBox(
-                    width: double.infinity, // Set a fixed width for the button
                     child: ElevatedButton(
                       onPressed: () => _answerQuestion(option),
                       style: ElevatedButton.styleFrom(
@@ -205,8 +173,12 @@ class _QuizAppState extends State<QuizApp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Quiz Completed your score is :$_score",
-              style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+              "🎯 Quiz Completed 🎯 \n your score is :$_score",
+              style: const TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(
@@ -215,10 +187,13 @@ class _QuizAppState extends State<QuizApp> {
             ElevatedButton(
                 onPressed: () => _restartQuiz(),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 133, 226, 244)),
+                    backgroundColor: const Color.fromARGB(255, 240, 180, 0)),
                 child: const Text(
                   "Restart",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 0, 0, 0)),
                 ))
           ],
         ),
